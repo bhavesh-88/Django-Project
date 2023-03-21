@@ -1,0 +1,111 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+</head>
+
+<body>
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Register</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Register</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid pt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">User Registration</span></h2>
+        </div>
+        <div class="row px-xl-5">
+            <div class="col-lg-12 mb-5">
+                <div class="contact-form">
+                    <div id="success"></div>
+                    {% if msg %}
+                        <b style="color: blue;">{{msg}}</b>
+                    {% endif %}
+                    <form method="post" action="{% url 'register'%}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="control-group">
+                            <select name="usertype" class="form-control" id="name">
+                                <option value="none">---Select Your Type---</option>
+                                <option value="buyer">Buyer</option>
+                                <option value="seller">seller</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <input type="text" class="form-control" id="name" placeholder="Your First Name" required="required" name="fname">
+                            <!-- <p class="help-block text-danger"></p> -->
+                        </div>
+                        <div class="control-group">
+                            <input type="text" class="form-control" id="name" placeholder="Your Last Name" required="required" name="lname">
+                        </div>
+                        <div class="control-group">
+                            <span id='email_error'style='color: red;' ></span>
+                            <input type="email" class="form-control" id="email" placeholder="Your Email" required="required" name="email">
+                            <!-- <p class="help-block text-danger"></p> -->
+                        </div>
+                        <div class="control-group">
+                            <input type="number" class="form-control" id="subject" placeholder="Mobile" required="required" name="mobile">
+                            <!-- <p class="help-block text-danger"></p> -->
+                        </div>
+                        <div class="control-group">
+                            <textarea class="form-control" rows="6" id="message" placeholder="Addrees" required="required" name="address"></textarea>
+                        </div>
+                        <div class="control-group">
+                            <input type="password" class="form-control" id="subject" placeholder="Password" required="required" name="password">
+                        </div>
+                        <div class="control-group">
+                            <input type="password" class="form-control" id="subject" placeholder="Confrim Password" required="required" name="cpassword">
+                        </div>
+                        <div class="control-group">
+                            <input type="file" class="form-control" id="subject"required="required" name="profile_pic">
+                        </div>
+                        <div>
+                            <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+
+     <!-- Ajax  -->
+    <script>
+        $("#email").change(function(){
+            var email=$(this).val();
+            // alert(email)
+            $.ajax({
+              url: '/ajax/validate_email/',
+              data: {
+                'email': email
+              },
+              dataType: 'json',
+              success: function (data) {
+                if (data.is_taken) {
+                  /*document.getElementById("email").style.border="5px solid red";*/
+                  document.getElementById("email_error").innerHTML="This Email ID Is Already Registered";
+                }else{
+                  document.getElementById("email_error").innerHTML="";
+                }
+              }
+            });
+          });
+    </script>
+</body>
+
+</html>
+{% endblock %}

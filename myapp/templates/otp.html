@@ -1,0 +1,61 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+</head>
+
+<body>
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Verify Otp</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Verify Otp</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid pt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">User Verify Otp</span></h2>
+        </div>
+        <div class="row px-xl-5">
+            <div class="col-lg-12 mb-5">
+                <div class="contact-form">
+                    <div id="success"></div>
+                    {% if msg %}
+                        <b style="color: blue;">{{msg}}</b>
+                    {% endif %}
+                    <form method="post" action="{% url 'verify-otp'%}">
+                        {% csrf_token %}
+                   		<div>
+                          	<input type="hidden" name="email" value="{{email}}">
+							<input type="hidden" name="otp" value="{{otp}}">
+                        </div>
+                        <div class="control-group">
+                        	<input type="text" class="form-control" id="email" placeholder="Enter Your otp" required='required' name="uotp">
+                        </div>
+                        <div>
+                            <input type="submit"  id="subject" class="btn btn-primary py-2 px-4" name="action" value="verify otp" >
+                        </div>
+                	</form>
+                </div>
+            </div> 
+        </div>
+    </div>
+    <!-- Contact End -->
+
+</body>
+
+</html>
+{% endblock %}
